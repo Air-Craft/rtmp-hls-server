@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: stream-server
+  name: stream-server
+spec:
+  type: LoadBalancer
+  ports:
+  - name: "rtmp"
+    port: 1935
+    targetPort: 1935
+  - name: "http"
+    port: 80
+    targetPort: 8080
+  selector:
+    name: stream-server
+    io.kompose.service: stream-server
+status:
+  loadBalancer: {}

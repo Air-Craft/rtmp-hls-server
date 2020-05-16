@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: stream-server
+  name: stream-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: stream-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        name: stream-server
+        io.kompose.service: stream-server
+    spec:
+      containers:
+      - args:
+        - nginx
+        - -g
+        - daemon off;
+        image: harikaram/stream_server
+        imagePullPolicy: IfNotPresent
+        name: stream-server
+        ports:
+        - containerPort: 1935
+        - containerPort: 8080
+        resources: {}
+        # volumeMounts:
+        # - mountPath: /etc/nginx/nginx.conf
+        #   name: stream-server-claim0
+        # - mountPath: /usr/local/nginx/html/players
+        #   name: stream-server-claim1
+      restartPolicy: Always
+      # volumes:
+      # - name: stream-server-persist0
+      #   persistentVolumeClaim:
+      #     claimName: stream-server-persist0
+status: {}
